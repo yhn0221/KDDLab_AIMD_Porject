@@ -1,0 +1,12 @@
+SELECT product_code, COUNT(DISTINCT k_number) AS k_number_count
+FROM fda.510k_0930
+WHERE product_code IN (
+    'CAP', 'CGA', 'DHX', 'DRF', 'DSY', 'DTA', 'DTB', 'DTE', 'DTK', 
+    'DXY', 'DYG', 'DZE', 'FRO', 'FTL', 'GAO', 'GAP', 'HFM', 'HGL', 
+    'HPX', 'HQF', 'HQL', 'HRY', 'IYN', 'JJE', 'JOQ', 'JSX', 'JTN', 
+    'JWY', 'KRG', 'KWZ', 'LDJ', 'LIT', 'LPH', 'LTB', 'LWL', 'LYL', 
+    'MKJ', 'MSI', 'MUW', 'NSA'
+)
+AND decision_date <= '2023-12-31'
+GROUP BY product_code;
+
