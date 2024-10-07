@@ -1,0 +1,27 @@
+SELECT product_code,
+       MIN(decision_date) AS earliest_decision_date,
+       (SELECT k_number 
+        FROM fda.510k_0930 AS sub1
+        WHERE sub1.product_code = main.product_code
+        AND sub1.decision_date = MIN(main.decision_date)
+        LIMIT 1) AS earliest_k_number,
+       MAX(decision_date) AS latest_decision_date,
+       (SELECT k_number 
+        FROM fda.510k_0930 AS sub2
+        WHERE sub2.product_code = main.product_code
+        AND sub2.decision_date = MAX(main.decision_date)
+        LIMIT 1) AS latest_k_number
+FROM fda.510k_0930 AS main
+WHERE product_code IN (
+    'CAP', 'CGA', 'DHX', 'DRF', 'DSY', 'DTA', 'DTB', 'DTE', 'DTK', 
+    'DXY', 'DYG', 'DZE', 'FRO', 'FTL', 'GAO', 'GAP', 'HFM', 'HGL', 
+    'HPX', 'HQF', 'HQL', 'HRY', 'IYN', 'JJE', 'JOQ', 'JSX', 'JTN', 
+    'JWY', 'KRG', 'KWZ', 'LDJ', 'LIT', 'LPH', 'LTB', 'LWL', 'LYL', 
+    'MKJ', 'MSI', 'MUW', 'NSA'
+)
+GROUP BY product_code;
+
+
+
+
+
