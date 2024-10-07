@@ -1,0 +1,7 @@
+SELECT DISTINCT k_number, decision_date
+FROM fda.510k_0930_sortedbydate
+ORDER BY decision_date;
+
+
+SELECT COUNT(*) AS den_count
+
