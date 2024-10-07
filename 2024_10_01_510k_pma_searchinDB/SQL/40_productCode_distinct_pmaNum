@@ -1,0 +1,11 @@
+SELECT product_code, GROUP_CONCAT(pma_number ORDER BY pma_number SEPARATOR ', ') AS pma_numbers
+FROM fda.pma_0930
+WHERE product_code IN (
+    'CAP', 'CGA', 'DHX', 'DRF', 'DSY', 'DTA', 'DTB', 'DTE', 'DTK', 
+    'DXY', 'DYG', 'DZE', 'FRO', 'FTL', 'GAO', 'GAP', 'HFM', 'HGL', 
+    'HPX', 'HQF', 'HQL', 'HRY', 'IYN', 'JJE', 'JOQ', 'JSX', 'JTN', 
+    'JWY', 'KRG', 'KWZ', 'LDJ', 'LIT', 'LPH', 'LTB', 'LWL', 'LYL', 
+    'MKJ', 'MSI', 'MUW', 'NSA'
+)
+AND decision_date <= '2023-12-31'
+GROUP BY product_code;
