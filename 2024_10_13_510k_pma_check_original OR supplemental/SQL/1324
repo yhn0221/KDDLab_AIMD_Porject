@@ -1,0 +1,21 @@
+-- SET SESSION group_concat_max_len = 1048576;
+SELECT p.product_code, 
+       k.earliest_date,
+       GROUP_CONCAT(CONCAT(p.pma_number, '(', IF(IFNULL(p.supplement_number, '') = '', '', p.supplement_number), ')') 
+       ORDER BY p.pma_number SEPARATOR ', ') AS pma_with_supplements,
+       COUNT(IF(p.supplement_number IS NULL OR p.supplement_number = '', 1, NULL)) AS empty_supplements_count,
+       COUNT(IF(p.supplement_number IS NOT NULL AND p.supplement_number != '', 1, NULL)) AS filled_supplements_count
+FROM fda.pma p
+JOIN (
+    SELECT product_code, MIN(decision_date) AS earliest_date
+    FROM fda.510k
+    WHERE product_code IN (
+		'DTB',
+		'DXY',
+        'HQL'
+    )
+    GROUP BY product_code
+) AS k
+ON p.product_code = k.product_code
+WHERE p.decision_date >= k.earliest_date
+GROUP BY p.product_code, k.earliest_date;
