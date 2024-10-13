@@ -1,0 +1,11 @@
+data = """
+P060027, P140033, P140033, P140033, P140033, P140033, P140033, P140033, P140033, P140033, P140033, P140033, P140033, P140033, P140033, P140033, P140033, P140033, P140033
+"""
+
+# Split the data by commas
+entries = data.split(',')
+
+# Count the number of entries
+
+print(len(entries))
+
