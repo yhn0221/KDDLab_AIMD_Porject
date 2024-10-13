@@ -1,0 +1,45 @@
+import openpyxl
+
+# 讀取 a 檔案，用來讀取
+a_wb = openpyxl.load_workbook('C:/Users/KDDSUNFLOWER/Desktop/1013/test/1324_last_2.xlsx')
+a_ws = a_wb.active
+
+# 讀取 b 檔案，用來寫
+b_wb = openpyxl.load_workbook('C:/Users/KDDSUNFLOWER/Desktop/1013/test/20241013_510k_pma_copy.xlsx')
+b_ws = b_wb.active
+
+# 定義欄位的位置 (假設第一列是標題)
+a_product_code_col = 'A'  # a檔案的product_code在A欄
+a_c_col = 'C'             # a檔案的C欄
+a_d_col = 'D'             # a檔案的D欄
+a_e_col = 'E'             # a檔案的E欄
+
+b_product_code_col = 'A'  # b檔案的product_code在A欄
+b_j_col = 'J'             # b檔案的J欄
+b_k_col = 'K'             # b檔案的K欄
+b_l_col = 'L'             # b檔案的L欄
+
+# 將 a 檔案的每一筆資料與 b 檔案進行比對
+for a_row in range(2, 21):  # 從第2列開始讀取（假設第1列是標題）
+    a_product_code = a_ws[a_product_code_col + str(a_row)].value
+    a_c_value = a_ws[a_c_col + str(a_row)].value
+    a_d_value = a_ws[a_d_col + str(a_row)].value
+    a_e_value = a_ws[a_e_col + str(a_row)].value
+    print(a_product_code)
+
+    # 在 b 檔案中查找相同的 product_code
+    for b_row in range(3, 99):
+        b_product_code = b_ws[b_product_code_col + str(b_row)].value
+
+        if a_product_code == b_product_code:
+            # 將 a 檔案的 C、D、E 行對應到 b 檔案的 J、K、L 行
+            b_ws[b_j_col + str(b_row)] = a_c_value
+            b_ws[b_k_col + str(b_row)] = a_d_value
+            b_ws[b_l_col + str(b_row)] = a_e_value
+            print(f'find {a_product_code}')
+            break  # 找到相同的 product_code 後，無需繼續檢查
+
+# 儲存更新後的 b 檔案
+b_wb.save('C:/Users/KDDSUNFLOWER/Desktop/1013/test/20241013_510k_pma_copy.xlsx')
+
+print("b 檔案已成功更新。")
